@@ -1,0 +1,63 @@
+id = "iraklisg.git-sync"
+name = "Git Sync"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Fetch every git repo open in your workspaces, then pick which ones to fast-forward"
+platforms = ["linux", "macos"]
+
+# Fetch once when the server starts, so ahead/behind counts are fresh.
+[[startup]]
+command = ["bash", "sync.sh", "startup"]
+
+# Actions are keybindable; each opens the matching popup so output is visible.
+[[actions]]
+id = "fetch"
+title = "Fetch all workspace repos"
+command = ["sh", "-c", "exec \"$HERDR_BIN_PATH\" plugin pane open --plugin \"$HERDR_PLUGIN_ID\" --entrypoint fetch"]
+
+[[actions]]
+id = "pull"
+title = "Pull workspace repos (pick, ff-only)"
+command = ["sh", "-c", "exec \"$HERDR_BIN_PATH\" plugin pane open --plugin \"$HERDR_PLUGIN_ID\" --entrypoint pull"]
+
+[[actions]]
+id = "fetch-here"
+title = "Fetch current workspace repos"
+command = ["sh", "-c", "exec \"$HERDR_BIN_PATH\" plugin pane open --plugin \"$HERDR_PLUGIN_ID\" --entrypoint fetch-here"]
+
+[[actions]]
+id = "pull-here"
+title = "Pull current workspace repos (pick, ff-only)"
+command = ["sh", "-c", "exec \"$HERDR_BIN_PATH\" plugin pane open --plugin \"$HERDR_PLUGIN_ID\" --entrypoint pull-here"]
+
+[[panes]]
+id = "fetch"
+title = "Git fetch"
+placement = "popup"
+width = "80%"
+height = "70%"
+command = ["bash", "sync.sh", "fetch", "all"]
+
+[[panes]]
+id = "pull"
+title = "Git pull"
+placement = "popup"
+width = "80%"
+height = "70%"
+command = ["bash", "sync.sh", "pull", "all"]
+
+[[panes]]
+id = "fetch-here"
+title = "Git fetch (workspace)"
+placement = "popup"
+width = "80%"
+height = "70%"
+command = ["bash", "sync.sh", "fetch", "here"]
+
+[[panes]]
+id = "pull-here"
+title = "Git pull (workspace)"
+placement = "popup"
+width = "80%"
+height = "70%"
+command = ["bash", "sync.sh", "pull", "here"]
